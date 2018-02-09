@@ -7,12 +7,16 @@
 //
 
 import UIKit
+import FLAnimatedImage
+import SDWebImage
 
 class ViewController: UIViewController {
 
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
+    @IBOutlet weak var animatedImageView: FLAnimatedImageView!
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        refresh()
     }
 
     override func didReceiveMemoryWarning() {
@@ -20,6 +24,23 @@ class ViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
 
-
+    @IBAction func refreshTapped(_ sender: Any) {
+        refresh()
+    }
+    
+    private func refresh() {
+        let url = URL(string: "https://i.giphy.com/media/JIX9t2j0ZTN9S/200w_d.gif")!
+        SDWebImageManager.shared().loadImage(with: url, options: [], progress: nil, completed: { (loadedImage, data, error, cacheType, success, _) in
+            // This always contains some data
+            let memoryImageData = loadedImage?.sd_imageData()
+            // This is nil in all situations
+            let gifFromUiimage = FLAnimatedImage(animatedGIFData: memoryImageData) ?? loadedImage?.sd_FLAnimatedImage
+            // This is ok only when the image is loaded from disk or web
+            let gifFromData = FLAnimatedImage(animatedGIFData: data)
+            
+            self.animatedImageView.animatedImage = gifFromUiimage ?? gifFromData
+        })
+    }
+    
 }
 
