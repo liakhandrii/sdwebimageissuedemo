@@ -29,8 +29,8 @@ class ViewController: UIViewController {
     }
     
     private func refresh() {
-        let url = URL(string: "https://i.giphy.com/media/JIX9t2j0ZTN9S/200w_d.gif")!
-        SDWebImageManager.shared().loadImage(with: url, options: [], progress: nil, completed: { (loadedImage, data, error, cacheType, success, _) in
+        let url = URL(string: "https://media0.giphy.com/media/l0MYNB04rBb51QNtC/200.gif")!
+        SDWebImageManager.shared().loadImage(with: url, options: [.cacheMemoryOnly, .queryDataWhenInMemory], progress: nil, completed: { (loadedImage, data, error, cacheType, success, _) in
             // This always contains some data
             let memoryImageData = loadedImage?.sd_imageData()
             // This is nil in all situations
